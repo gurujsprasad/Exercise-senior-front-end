@@ -1,1 +1,19 @@
+<div *ngIf="displayAssets.length > 0">
+  <table>
+      <tr>
+        <th><span (click)="sortBy('id')" class="Sort" [ngClass]="sortByColumn === 'id' &&  sortingOrderAsc == true? sortByColumn+'-Asc':sortByColumn+'-Dsc'">Id</span></th>
+        <th><span (click)="sortBy('assetName')" class="Sort" [ngClass]="sortByColumn === 'assetName' &&  sortingOrderAsc == true? sortByColumn+'-Asc':sortByColumn+'-Dsc'">Asset name</span></th>
+        <th><span (click)="sortBy('price')" class="Sort" [ngClass]="sortByColumn === 'price' &&  sortingOrderAsc == true? sortByColumn+'-Asc':sortByColumn+'-Dsc'">Price</span></th>
+        <th><span (click)="sortBy('lastUpdate')" class="Sort" [ngClass]="sortByColumn === 'lastUpdate' &&  sortingOrderAsc == true? sortByColumn+'-Asc':sortByColumn+'-Dsc'">Updated date</span></th>
+        <th><span (click)="sortBy('type')" class="Sort" [ngClass]="sortByColumn === 'type' &&  sortingOrderAsc == true? sortByColumn+'-Asc':sortByColumn+'-Dsc'">Asset type</span></th>
+      </tr>
+      <tr *ngFor="let asset of displayAssets">
+        <td>{{asset.id}}</td>
+        <td>{{asset.assetName}}</td>
+        <td>{{asset.price}}</td>
+        <td>{{asset.lastUpdate |  date:'MMM-dd-yyyy hh-mm-ss a'}}</td>
+        <td>{{asset.type}}</td>
+      </tr>
+  </table>
+</div>
 <router-outlet></router-outlet>
