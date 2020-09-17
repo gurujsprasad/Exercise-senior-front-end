@@ -1,52 +1,27 @@
-# Guidelines
-You will have to submit this task with git (you can use Github or Bitbucket). 
-After you are finishing make sure the code is pushed and send an email/skype with a link.
+# ExerciseSeniorFrontEnd
 
-The code should be runnable on Chrome (don't warry about the rest), NPM start or something simple for run it.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8.
 
-Stack: React, Redux, Rxjs (or similar  lib), ES6/ES7 or Typescript
+## Development server
 
-We are looking for best practices, maintainability, knowledge general programming skills/abilities
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## You have this model
-```typescript
-interface Asset {
-	id: number
-	assetName: string; // "USD", Samsung Electronics Co Ltd : "SSNLF"
-	price: number; // asset current price relative to USD
-	lastUpdate: number; // unix timestamp
-	type: "Currency" | "Stock"; // asset type Currency (e.g. USD, EUR...) or Stock (Samsung, Google)
-}
-```
+## Code scaffolding
 
-## Mock 
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-Creates 400 random assets, 200 currencies and 200 stocks (just the types is itersting, you don't need real assets) id 1-400
-Create a stream from those 400 assets that fires 1 updates per secound for each asset:
-* price must be changed each update by -1 to 1 and with the current timestamp, the rest will stay the same
+## Build
 
-you can find the mock at mock.js
-It's exports a mock, rxjs observable with the required stream
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-This is not a starter or boilerplate it's just for confirm that the mock isn't brooken
-You still can boot your project how ever you want
+## Running unit tests
 
-### see the mock running
-npm/yarn install
-npm test
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-You should see console log with the object on the steam
+## Running end-to-end tests
 
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
-## Create the following app using this stream:
+## Further help
 
-* Show a table with all of the assets
-* Allow to sort for each one of the model fields
-* Allow to filter for each one of the model fields
-
-**Optional**
-
-* Add to favorites button
-* favorites should be persist  to localstorage
-* favorites should be pin to the top of the table
-
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
