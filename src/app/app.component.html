@@ -1,4 +1,10 @@
+
+<span (click)= "clearFilter()">Clear Filter</span> <br>
+<span (click)= "removeSort()">Remove Sort</span><br>
+<span (click)= "applyFilter()">Apply Filter</span><br>
+
 <div *ngIf="displayAssets.length > 0">
+  <span>Total Results: {{displayAssets.length}}</span>
   <table>
       <tr>
         <th><span (click)="sortBy('id')" class="Sort" [ngClass]="sortByColumn === 'id' &&  sortingOrderAsc == true? sortByColumn+'-Asc':sortByColumn+'-Dsc'">Id</span></th>
