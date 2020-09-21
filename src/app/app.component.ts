@@ -5,6 +5,7 @@ import { Asset } from './_models/asset';
 import { DataMockService } from './_services/datamock.service';
 import { map } from 'rxjs/operators';
 import { DateFilter, Filter, FilterOn, NumberFilter, StringFilter } from './_models/filter';
+import {  FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -25,17 +26,27 @@ export class AppComponent implements OnInit, OnDestroy {
   numberFilters = NumberFilter.filters;
   dateFilters = DateFilter.filters;
 
-  constructor(private dataMockService: DataMockService){    
+  idFilterFormGroup :FormGroup;
+  assetFilterFormGroup: FormGroup;
+  priceFilterFormGroup: FormGroup;
+  updatedDateFilterFormGroup: FormGroup;
+  assetTypeFilterFormGroup: FormGroup;
+
+  constructor(private dataMockService: DataMockService,
+    private formBuilder: FormBuilder){  
+
+    
 
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
+    this.filterFormInit();
     this.dataMockSubscription = this.mockObservable.subscribe();
     this.displayAssets = this.dataMockService.assets.slice();
-    const nfilter = this.numberFilters[1];
-    const sfilter = this.stringFilters[0];
-    this.appliedFilters = [{columnName:"id", key:5,filter:nfilter},{columnName:"assetName", key:"a",filter:sfilter}];
-    this.applyFilter();
+    // const nfilter = this.numberFilters[1];
+    // const sfilter = this.stringFilters[0];
+    // this.appliedFilters = [{columnName:"id", key:5,filter:nfilter},{columnName:"assetName", key:"a",filter:sfilter}];
+    // this.applyFilter();
   }
 
   ngOnDestroy(): void {    
@@ -59,22 +70,98 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   });
 
+
+  filterFormInit(){
+    this.idFilterFormGroup = this.formBuilder.group({
+      columnName:["id"],
+      operation: [this.numberFilters[0].name],
+      key: [null, [Validators.required]]
+    });
+    this.assetFilterFormGroup =  this.formBuilder.group({
+      columnName:["assetName"],
+      operation: [this.stringFilters[0].name],
+      key: [null, [Validators.required]]
+    });
+    this.priceFilterFormGroup =  this.formBuilder.group({
+      columnName:["price"],
+      operation: [this.numberFilters[0].name],
+      key: [null, [Validators.required]]
+    });
+    this.updatedDateFilterFormGroup = this.formBuilder.group({
+      columnName:["lastUpdate"],
+      operation: [this.dateFilters[0].name],
+      key: [null, [Validators.required]]
+    });
+    this.assetTypeFilterFormGroup = this.formBuilder.group({
+      columnName:["type"],
+      operation: [this.stringFilters[0].name],
+      key: [null, [Validators.required]]
+    });
+  }
+
   public clearFilter(){
     this.displayAssets = this.dataMockService.assets.slice();
     this.appliedFilters.splice(0, this.appliedFilters.length);
     this.sortBy(this.sortByColumn);
+    // this.idFilterFormGroup.reset();
+    // this.assetFilterFormGroup.reset();
+    // this.priceFilterFormGroup.reset();
+    // this.updatedDateFilterFormGroup.reset();
+    // this.assetTypeFilterFormGroup.reset();
+    this.filterFormInit();
   }
 
- 
+  public filterId(){
+    const key = this.idFilterFormGroup.get('key').value;
+    const operation = this.idFilterFormGroup.get('operation').value;
+    const columnName = this.idFilterFormGroup.get('columnName').value;
+    console.log("key:"+key+" operation:"+operation+" columnName:"+columnName);
+    this.filter("number", operation, columnName, key ); 
+  }
+
+  public filterByAssetName(){
+    const key = this.assetFilterFormGroup.get('key').value;
+    const operation = this.assetFilterFormGroup.get('operation').value;
+    const columnName = this.assetFilterFormGroup.get('columnName').value;
+    console.log("key:"+key+" operation:"+operation+" columnName:"+columnName);
+    this.filter("string", operation, columnName, key ); 
+  }
+
+  public filterByPrice(){
+    const key = this.priceFilterFormGroup.get('key').value;
+    const operation = this.priceFilterFormGroup.get('operation').value;
+    const columnName = this.priceFilterFormGroup.get('columnName').value;
+    console.log("key:"+key+" operation:"+operation+" columnName:"+columnName);
+    this.filter("number", operation, columnName, key ); 
+  }
+
+  public filterByDate(){
+    const key = this.updatedDateFilterFormGroup.get('key').value;
+    const operation = this.updatedDateFilterFormGroup.get('operation').value;
+    const columnName = this.updatedDateFilterFormGroup.get('columnName').value;
+    console.log("key:"+key+" operation:"+operation+" columnName:"+columnName);
+    this.filter("date", operation, columnName, key ); 
+  }
+
+  public filterByAssetType(){
+    const key = this.assetTypeFilterFormGroup.get('key').value;
+    const operation = this.assetTypeFilterFormGroup.get('operation').value;
+    const columnName = this.assetTypeFilterFormGroup.get('columnName').value;
+    console.log("key:"+key+" operation:"+operation+" columnName:"+columnName);
+    this.filter("string", operation, columnName, key ); 
+  }
+
+
   public filter(dataType:string, operation: string, column:string, key:any){
     const type = dataType.toLowerCase();
     switch(type){      
       case "number":
-          const numberFilter = this.stringFilters.find(a => a.name === operation);
+          const numberFilter = this.numberFilters.find(a => a.name === operation);
+          console.log(numberFilter);
           this.appliedFilters.push({columnName : column,key : key,filter: numberFilter});
           break;
       case "date":
-          const dateFilter = this.stringFilters.find(a => a.name === operation);
+          const dateFilter = this.dateFilters.find(a => a.name === operation);
           this.appliedFilters.push({columnName : column,key : key, filter:dateFilter});
           break;
       default:
@@ -82,8 +169,10 @@ export class AppComponent implements OnInit, OnDestroy {
           this.appliedFilters.push({columnName : column,key : key,filter:stringFilter});
           break;
     }
+    console.log(this.appliedFilters.toString());
+    this.applyFilter();
   }
-
+  
   applyFilter(){
     this.appliedFilters.forEach(item => {
       this.displayAssets = this.displayAssets.filter( a => item.filter.logic(a[item.columnName], item.key));
@@ -109,6 +198,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public removeSort(){
     this.displayAssets = this.dataMockService.assets.slice();
+    this.applyFilter();
     this.sortByColumn = '';
   }
 

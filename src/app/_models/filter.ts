@@ -136,7 +136,7 @@ export class DateFilter{
         }, {
             name: 'before',
             
-            displayName: 'is_before',
+            displayName: 'Before date',
             logic: (target: Date, searchVal: Date) => {
                 if (!target) {
                     return false;
@@ -151,7 +151,7 @@ export class DateFilter{
         }, {
             name: 'after',
             
-            displayName: 'is_after',
+            displayName: 'After date',
             logic: (target: Date, searchVal: Date) => {
                 if (!target) {
                     return false;
