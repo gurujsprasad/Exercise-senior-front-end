@@ -26,11 +26,14 @@ Run `ng serve --o` for a dev server. Default browser will open the app with uri 
 * Clicking on `Remove Sort` will remove the sorting applied on the table column
 
 ## Filter
+* Click on `Show Filter` or `Hide Filter` to toggle filters
 * Filter is applied on number, string and date data type, with relavent conditions 
 * Multiple filter can be applied on the table but single filter per column is applied for simplicity. Logical AND is used for multiple filters
+* Applied filters are showed in a list above the table, which disappears once the filters are cleared
+* `Total Assets` section on the top of table, displays the number of records after filter conditions are applied
 * Filter logic for datetime column `Updated Date`, is applied on Date portion ignoring the time value, this can be enhanced to include time
 * Clicking on `Clear Filter` will remove all the filters applied on the table, will retain the sorting applied in the column
-* `Total Assets` section on the top of table, displays the number of records after filter conditions are applied
+
 
 ## User Interface
 * Clarity UI package is used for implementing user interface
