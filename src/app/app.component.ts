@@ -21,6 +21,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private dataMockSubscription: Subscription;
   
   appliedFilters: FilterOn[] = []; 
+  showFilter: boolean = false;
 
   stringFilters = StringFilter.filters;
   numberFilters = NumberFilter.filters;
@@ -95,6 +96,8 @@ export class AppComponent implements OnInit, OnDestroy {
   public clearFilter(){
     this.displayAssets = this.dataMockService.assets.slice();
     this.appliedFilters.splice(0, this.appliedFilters.length);
+    //to retain the original sorting order after clearing the filter
+    this.sortingOrderAsc = !this.sortingOrderAsc;
     this.sortBy(this.sortByColumn);
     this.filterFormInit();
   }
@@ -175,14 +178,16 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public sortBy (key:string){    
-    if(this.sortByColumn === '' || this.sortByColumn !== key){
-      this.sortByColumn = key;
-      this.sortingOrderAsc = true;      
-    }
-    else{
-      this.sortingOrderAsc = !this.sortingOrderAsc;       
+    if(key !== '' && key != null){
+      if(this.sortByColumn === '' || this.sortByColumn !== key){
+        this.sortByColumn = key;
+        this.sortingOrderAsc = true;              
+      }
+      else{
+        this.sortingOrderAsc = !this.sortingOrderAsc;       
+      }    
+      this.sortArray(this.displayAssets, key, this.sortingOrderAsc);  
     }    
-    this.sortArray(this.displayAssets, key, this.sortingOrderAsc);    
   }
 
   public sortArray <T> (array: Array<T>, key:string, sortingByAsc: boolean){         

@@ -18,14 +18,18 @@
                 </div>
             </div>
           </div>
-          <div *ngIf="displayAssets.length > 0">  
+          <div *ngIf="displayAssets.length > 0">      
+            <button class="btn btn-link"  (click) = "showFilter = !showFilter"><clr-icon shape="filter"></clr-icon> <span *ngIf="!showFilter"> Show Filter</span><span *ngIf="showFilter"> Hide Filter</span></button>      
+            <div *ngIf="appliedFilters.length > 0">
+                <span *ngFor="let item of appliedFilters" class="label">{{item.columnName}} {{item.filter.displayName}} {{item.key}} </span>
+            </div>
             <table class="table">
               <thead>
                   <tr>
                       <th class="left">
                         <span (click)="sortBy('id')" class="Sort">Id
                           <span *ngIf="sortByColumn === 'id' &&  sortingOrderAsc == true"><clr-icon shape="download"></clr-icon></span><span *ngIf="sortByColumn === 'id' &&  sortingOrderAsc == false"><clr-icon shape="upload"></clr-icon></span>
-                        </span> 
+                        </span>                        
                       </th>
                       <th class="left">
                         <span (click)="sortBy('assetName')" class="Sort">Asset name
@@ -48,7 +52,7 @@
                         </span>                       
                       </th>
                   </tr>
-                  <tr>
+                  <tr *ngIf="showFilter">
                     <th class="left">
                       <form clrForm [formGroup]="idFilterFormGroup" (ngSubmit)="filterById()">
                         <input  type="hidden" formControlName="columnName">
