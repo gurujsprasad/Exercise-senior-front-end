@@ -1,27 +1,36 @@
 # ExerciseSeniorFrontEnd
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run  `npm install` to install all the dependencies from npm
 
-## Code scaffolding
+Run `ng serve --o` for a dev server. Default browser will open the app with uri  `http://localhost:4200/`.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Below are the features developed in the app  using the mocked data stream
+* Show a table with all of the assets
+* Allow to sort for each one of the model fields
+* Allow to filter for each one of the model fields
 
-## Build
+## Display assets in table
+* Service layer mocks the data
+* Data is injected to one of the components, where it is displayed in a table
+* All 400 assets are displayed at once
+* Pagination or load more can be implemented to improve the performace when the data is fetched from an external API
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## Sorting
+* Clicking on a table header sorts the assets by column in ascending order
+* Single sort per table is implemented
+* Original data order is not lost, as the sorting is applied on a data copy
+* Clicking on `Remove Sort` will remove the sorting applied on the table column
 
-## Running unit tests
+## Filter
+* Filter is applied on number, string and date data type, with relavent conditions 
+* Multiple filter can be applied on the table but single filter per column is applied for simplicity. Logical AND is used for multiple filters
+* Filter logic for datetime column `Updated Date`, is applied on Date portion ignoring the time value, this can be enhanced to include time
+* Clicking on `Clear Filter` will remove all the filters applied on the table, will retain the sorting applied in the column
+* `Total Assets` section on the top of table, displays the number of records after filter conditions are applied
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## User Interface
+* Clarity UI package is used for implementing user interface
