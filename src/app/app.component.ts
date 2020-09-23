@@ -34,19 +34,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(private dataMockService: DataMockService,
     private formBuilder: FormBuilder){  
-
-    
-
   }
 
   ngOnInit(): void {    
     this.filterFormInit();
     this.dataMockSubscription = this.mockObservable.subscribe();
     this.displayAssets = this.dataMockService.assets.slice();
-    // const nfilter = this.numberFilters[1];
-    // const sfilter = this.stringFilters[0];
-    // this.appliedFilters = [{columnName:"id", key:5,filter:nfilter},{columnName:"assetName", key:"a",filter:sfilter}];
-    // this.applyFilter();
   }
 
   ngOnDestroy(): void {    
@@ -103,44 +96,43 @@ export class AppComponent implements OnInit, OnDestroy {
     this.displayAssets = this.dataMockService.assets.slice();
     this.appliedFilters.splice(0, this.appliedFilters.length);
     this.sortBy(this.sortByColumn);
-    // this.idFilterFormGroup.reset();
-    // this.assetFilterFormGroup.reset();
-    // this.priceFilterFormGroup.reset();
-    // this.updatedDateFilterFormGroup.reset();
-    // this.assetTypeFilterFormGroup.reset();
     this.filterFormInit();
   }
 
-  public filterId(){
+  public filterById(){
     const key = this.idFilterFormGroup.get('key').value;
     const operation = this.idFilterFormGroup.get('operation').value;
     const columnName = this.idFilterFormGroup.get('columnName').value;
-    console.log("key:"+key+" operation:"+operation+" columnName:"+columnName);
-    this.filter("number", operation, columnName, key ); 
+    if(key != null ){
+      this.filter("number", operation, columnName, key ); 
+    }    
   }
 
   public filterByAssetName(){
     const key = this.assetFilterFormGroup.get('key').value;
     const operation = this.assetFilterFormGroup.get('operation').value;
     const columnName = this.assetFilterFormGroup.get('columnName').value;
-    console.log("key:"+key+" operation:"+operation+" columnName:"+columnName);
-    this.filter("string", operation, columnName, key ); 
+    if(key != null){
+      this.filter("string", operation, columnName, key ); 
+    }    
   }
 
   public filterByPrice(){
     const key = this.priceFilterFormGroup.get('key').value;
     const operation = this.priceFilterFormGroup.get('operation').value;
     const columnName = this.priceFilterFormGroup.get('columnName').value;
-    console.log("key:"+key+" operation:"+operation+" columnName:"+columnName);
-    this.filter("number", operation, columnName, key ); 
+    if(key != null){
+      this.filter("number", operation, columnName, key ); 
+    }       
   }
 
   public filterByDate(){
     const key = this.updatedDateFilterFormGroup.get('key').value;
     const operation = this.updatedDateFilterFormGroup.get('operation').value;
     const columnName = this.updatedDateFilterFormGroup.get('columnName').value;
-    console.log("key:"+key+" operation:"+operation+" columnName:"+columnName);
-    this.filter("date", operation, columnName, key ); 
+    if(key != null){
+      this.filter("date", operation, columnName, key ); 
+    }    
   }
 
   public filterByAssetType(){
@@ -148,7 +140,9 @@ export class AppComponent implements OnInit, OnDestroy {
     const operation = this.assetTypeFilterFormGroup.get('operation').value;
     const columnName = this.assetTypeFilterFormGroup.get('columnName').value;
     console.log("key:"+key+" operation:"+operation+" columnName:"+columnName);
-    this.filter("string", operation, columnName, key ); 
+    if(key != null){
+      this.filter("string", operation, columnName, key ); 
+    }    
   }
 
 
@@ -169,13 +163,14 @@ export class AppComponent implements OnInit, OnDestroy {
           this.appliedFilters.push({columnName : column,key : key,filter:stringFilter});
           break;
     }
-    console.log(this.appliedFilters.toString());
     this.applyFilter();
   }
   
   applyFilter(){
     this.appliedFilters.forEach(item => {
-      this.displayAssets = this.displayAssets.filter( a => item.filter.logic(a[item.columnName], item.key));
+      if(item.key != null){
+        this.displayAssets = this.displayAssets.filter( a => item.filter.logic(a[item.columnName], item.key));
+      }      
     });
   }
 
@@ -224,6 +219,4 @@ export class AppComponent implements OnInit, OnDestroy {
       return 0;
     }
   }
-
-  
 }
